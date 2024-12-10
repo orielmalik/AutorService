@@ -1,0 +1,9 @@
+POST http://localhost:5002/author
+Content-Type: application/json
+
+{
+    "id": "ds23d",
+    "first": "gaya",
+    "last": "avigdor",
+    "email": "f@gm.com"
+}
