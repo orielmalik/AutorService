@@ -100,6 +100,7 @@ C:\Users\User\Downloads\AutorService\AuthorService\obj\Debug\net9.0\AuthorServic
 C:\Users\User\Downloads\AutorService\AuthorService\obj\Debug\net9.0\AuthorService.AssemblyInfo.cs
 C:\Users\User\Downloads\AutorService\AuthorService\obj\Debug\net9.0\AuthorService.csproj.CoreCompileInputs.cache
 C:\Users\User\Downloads\AutorService\AuthorService\obj\Debug\net9.0\AuthorService.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\User\Downloads\AutorService\AuthorService\obj\Debug\net9.0\AuthorService.sourcelink.json
 C:\Users\User\Downloads\AutorService\AuthorService\obj\Debug\net9.0\scopedcss\bundle\AuthorService.styles.css
 C:\Users\User\Downloads\AutorService\AuthorService\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\User\Downloads\AutorService\AuthorService\obj\Debug\net9.0\staticwebassets.development.json

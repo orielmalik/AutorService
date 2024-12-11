@@ -15,6 +15,37 @@ builder.Services.AddScoped<AuthorCrud>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+// הפעלת המיגרציות והעדכון של בסיס הנתונים
+var processAddMigration = new Process
+{
+    StartInfo = new ProcessStartInfo
+    {
+        FileName = "dotnet",
+        Arguments = "ef migrations add InitialCreate", // הפקודה להוספת מיגרציה
+        UseShellExecute = false,
+        RedirectStandardOutput = true,
+        RedirectStandardError = true
+    }
+};
+processAddMigration.Start();
+processAddMigration.WaitForExit(); // לחכות עד שהפקודה תושלם
+
+var processUpdateDatabase = new Process
+{
+    StartInfo = new ProcessStartInfo
+    {
+        FileName = "dotnet",
+        Arguments = "ef database update", // הפקודה לעדכון בסיס הנתונים
+        UseShellExecute = false,
+        RedirectStandardOutput = true,
+        RedirectStandardError = true
+    }
+};
+processUpdateDatabase.Start();
+processUpdateDatabase.WaitForExit(); // לחכות עד שהפקודה תושלם
+
+// הפעלת Docker Compose
 var dockerComposeProcess = new Process
 {
     StartInfo = new ProcessStartInfo
@@ -34,6 +65,7 @@ var error = dockerComposeProcess.StandardError.ReadToEnd();
 Console.WriteLine("Output: " + output);
 Console.WriteLine("Error: " + error);
 
+// רישום הפסקה של Docker Compose כשסוגרים את האפליקציה
 app.Lifetime.ApplicationStopping.Register(() =>
 {
     var dockerComposeDownProcess = new Process
@@ -49,7 +81,7 @@ app.Lifetime.ApplicationStopping.Register(() =>
     };
 
     dockerComposeDownProcess.Start();
-    dockerComposeDownProcess.WaitForExit(); 
+    dockerComposeDownProcess.WaitForExit(); // לחכות עד שהפקודה תושלם
 });
 
 app.MapGet("/", () => { return "Application is running"; });

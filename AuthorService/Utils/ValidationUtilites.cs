@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -379,8 +380,12 @@ namespace Utils
         public static bool IsEmailValid(string email)
         {
             bool b = false;
+            if (email == null)
+            {
+                return false;
+            }
             // Define a regular expression pattern for a basic email format
-            string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+            string pattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
 
             // Use Regex.IsMatch to check if the email matches the pattern
             try
@@ -394,8 +399,21 @@ namespace Utils
             }
             return b;
         }
-
-
+        public static DateTime FromBirthdateFormat(string dateString)
+        {
+            try
+            {
+                return DateTime.ParseExact(dateString, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            }
+            catch (FormatException ex)
+            {
+                throw new InvalidOperationException("Invalid date format. Expected format is dd-MM-yyyy.", ex);
+            }
+        }
+   public static string ToBirthdateFormat(DateTime date)
+    {
+        return date.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
+    }
         internal static bool IsOnlyDigits(string p)
         {
             throw new NotImplementedException();

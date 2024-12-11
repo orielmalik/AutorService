@@ -1,9 +1,24 @@
-POST http://localhost:5002/author
+### POST request to create a new author
+POST http://localhost:5002/author HTTP/1.1
 Content-Type: application/json
+Accept: application/json
 
 {
-    "id": "ds23d",
-    "first": "gaya",
-    "last": "avigdor",
-    "email": "f@gm.com"
+  "id": "",
+  "first": "John",
+  "last": "Doe",
+  "email": "john.doe@example.com",
+  "birth": "1990-01-01"
 }
+
+### GET request to retrieve authors by type (email)
+GET http://localhost:5002/author?type=email&value=john.doe@example.com HTTP/1.1
+Accept: application/json, application/xml
+
+### GET request to retrieve authors by type (first name)
+GET http://localhost:5002/author?type=first&value=John HTTP/1.1
+Accept: application/json, application/xml
+
+### GET request to retrieve authors by type (birth date)
+GET http://localhost:5002/author?type=birth&value=1990-01-01 HTTP/1.1
+Accept: application/json, application/xml
