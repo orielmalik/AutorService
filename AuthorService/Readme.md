@@ -2,17 +2,7 @@
 
 
 
-# Build the project
-dotnet build
 
-# Build the project
-dotnet build
-
-# Clean the build output
-dotnet clean
-
-# Run the application
-dotnet run
 
 # Watch for changes and rebuild/run automatically
 dotnet watch run
