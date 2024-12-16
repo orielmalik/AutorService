@@ -1,0 +1,1 @@
+Run with dotnet run only at terminal,Soon Playwright
