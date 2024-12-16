@@ -2,6 +2,7 @@
 
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Authors.Api.Models;
 
@@ -9,26 +10,21 @@ public class Author
 {
 
 
-    private string id;
-    private string first, last;//Name
-    private List<string> contents;
+    [Key]
+    public string? Id { get; set; }
 
-    private DateTime birth;
-    private string email;
+    public DateTime Birth { get; set; }
+    public string? First { get; set; }
+    public string? Last { get; set; }
+    public string? Email { get; set; }
+    public List<string>? Contents { get; set; }
     public Author()
     {
 
     }
 
-   
- [Key]
-    public string? Id { get; set; }
-    public DateTime Birth { get => birth; set => birth = value; }
-  
-    public string? First { get; set; }
-    public string? Last { get; set; }
-    public string? Email { get; set; }
-    public List<string>? Contents { get; set; }
 
- 
+
+
+
 }

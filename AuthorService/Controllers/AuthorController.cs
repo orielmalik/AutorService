@@ -24,7 +24,7 @@ namespace AuthorService.Controllers
     }
 
     [HttpGet]
-    [Produces("application/json")]
+    [Produces("text/event-stream")]
     public IActionResult GetAuthors([FromQuery] string type, [FromQuery] string value)
     {
       /*
@@ -68,8 +68,24 @@ namespace AuthorService.Controllers
       {
         return BadRequest("bad");
       }
-      entity.Birth = new DateTime(entity.Birth.Year, entity.Birth.Month, entity.Birth.Day);
-      return Ok(entity);
+     
+      return Ok(new AuthorBoundary(entity));
     }
+
+
+    [HttpDelete]
+    public IActionResult deleteAll()
+  {
+    try{
+    _crudService.deleteAuthors();
+
+    }catch(Exception e)
+    {
+      return NotFound(e.Message);
+    }
+    return Ok("DeleteAll");
+
   }
+  }
+  
 }

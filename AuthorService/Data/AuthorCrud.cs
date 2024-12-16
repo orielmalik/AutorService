@@ -7,7 +7,6 @@ using System.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography.X509Certificates;
 public class AuthorCrud
 {
 
@@ -21,7 +20,7 @@ public class AuthorCrud
         authors = dbContext.Authors;
         if (authors == null)
         {
-            Console.WriteLine("er crd");
+            Console.WriteLine("err crud");
         }
     }
 
@@ -34,12 +33,16 @@ public class AuthorCrud
             err.Id = "";
             return err;
         }
-        if (authors.Find(author.Id) != null)
+        if (authors.Find(author.Id) != null||this.getAuthors("email",author.Email)!=null||!this.getAuthors("email",author.Email).Any())
         {
             err.Id = "";
             return err;
 
         }
+        
+        author.Birth = new DateTime(author.Birth.Year, author.Birth.Month, author.Birth.Day);
+        author.Birth = DateTime.UtcNow.ToUniversalTime();
+        author.Id=Guid.NewGuid().ToString();
         this.authors.Add(author);
         _dbContext.SaveChanges();
         return author;
@@ -50,31 +53,31 @@ public class AuthorCrud
         switch (type.ToLower())
         {
             case "email":
-                if (Utils.ValidationUtilites.IsEmailValid(value))
+                if (!Utils.ValidationUtilites.IsEmailValid(value))
                 {
                     throw new FormatException("EMAIL ERROR");
                 }
-                return authors.Where((author) => !string.IsNullOrEmpty(author.Email) && author.Email.ToLower().Equals(value)).Select((author)=>new AuthorBoundary(author)).ToList()
+                return authors.Where((author) => !string.IsNullOrEmpty(author.Email) && author.Email.ToLower().Equals(value)).Select((author) => new AuthorBoundary(author)).ToList()
                 ;
             case "first":
                 return
-                    authors.Where((author) => !string.IsNullOrEmpty(author.First) && author.First.ToLower().Equals(value)).Select((author)=>new AuthorBoundary(author)).ToList();
+                    authors.Where((author) => !string.IsNullOrEmpty(author.First) && author.First.ToLower().Equals(value)).Select((author) => new AuthorBoundary(author)).ToList();
             case "last":
                 return
-                    authors.Where((author) => !string.IsNullOrEmpty(author.Last) && author.Last.ToLower().Equals(value)).Select((author)=>new AuthorBoundary(author)).ToList();
+                    authors.Where((author) => !string.IsNullOrEmpty(author.Last) && author.Last.ToLower().Equals(value)).Select((author) => new AuthorBoundary(author)).ToList();
             case "birth":
                 try
                 {
                     DateTime dateval = Utils.ValidationUtilites.FromBirthdateFormat(value);
-                    return authors.Where(author => !string.IsNullOrEmpty(author.Birth.ToString())  && author.Birth <= dateval).Select((author)=>new AuthorBoundary(author)).ToList();
+                    return authors.Where(author => !string.IsNullOrEmpty(author.Birth.ToString()) && author.Birth <= dateval).Select((author) => new AuthorBoundary(author)).ToList();
                 }
-                catch ( InvalidOperationException ex)
+                catch (InvalidOperationException ex)
                 {
-                 throw new FormatException("DATE ERROR");
+                    throw new FormatException("DATE ERROR");
 
                 }
             default:
-                return authors.Where(author => author.Id != null).Select((author)=>new AuthorBoundary(author)).ToList();
+                return authors.Where(author => author.Id != null).Select((author) => new AuthorBoundary(author)).ToList();
 
 
         }
